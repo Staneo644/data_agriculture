@@ -1,5 +1,6 @@
 from decimal import Decimal
-import datetime 
+import datetime
+from typing import List 
 
 class Intrant:
     def __init__(self, date:datetime, plante, travail, numero_parcelle:int, dose:Decimal, surface:Decimal, quantite:Decimal, unite:str):
@@ -33,3 +34,27 @@ class DataPhyto():
         if (name != self.name or type != self.type):
             return False
         return True
+    
+# def FindPhyto(amm_id:int, list: List[DataPhyto]):
+
+#     for i in range(0, len(list)):
+#         if (list[i].amm_id == amm_id):
+#             return list[i]
+#     return False
+
+
+def FindPhyto(data_list:List[DataPhyto], amm_id:int) -> DataPhyto:
+    low = 0
+    high = len(data_list) - 1
+
+    while low <= high:
+        mid = (low + high) // 2
+
+        if data_list[mid].amm_id == amm_id:
+            return data_list[mid]
+        elif data_list[mid].amm_id < amm_id:
+            low = mid + 1
+        else:
+            high = mid - 1
+
+    return False

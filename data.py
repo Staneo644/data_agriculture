@@ -6,6 +6,7 @@ import seaborn as sns
 from parsing import get_plante_dict, get_code_dict, checkData, load_data, get_data_phyto
 from classes import Intrant
 from typing import List
+from camember import doseOnSurface, speciesCount, productCount
 
 
 
@@ -18,6 +19,7 @@ data_phyto = pd.read_csv(phyto_data, sep=';')
 
 def load_datas() -> List[Intrant]:
     ret = []
+    
 
     for index, row in data.iterrows():
         
@@ -48,13 +50,47 @@ def load_datas() -> List[Intrant]:
 
     return data
 
+type_amm_column = data['amm_id']
+print(type_amm_column.value_counts())
+print(type_amm_column.__len__())
+
 plant_dict = get_plante_dict(data)
 code_dict = get_code_dict(data)
-phytoList = get_data_phyto(data_phyto)
-intrantList = load_data(data, phytoList)
-if (plant_dict == {} or code_dict == {} or phytoList == [] or not checkData(data) or intrantList == []):
+phytoDoc = get_data_phyto(data_phyto)
+intrantList, phytoList = load_data(data, phytoDoc)
+if (plant_dict == {} or code_dict == {} or phytoDoc == [] or not checkData(data) or intrantList == []):
     print("Erreur dans les données")
     exit()
 print("Données chargées avec succès")
+
+
+# doses = [phyto.dose for phyto in intrantList]
+fig, axs = plt.subplots(3, 3, figsize=(10, 5))
+
+# speciesCount(intrantList, plant_dict)
+# productCount(phytoList, phytoDoc)
+doseOnSurface(intrantList)
+
+# plt.hist(doses, bins=20, color='blue', alpha=0.7)
+# plt.title('Distribution des doses de produits phytosanitaires')
+# plt.xlabel('Dose')
+# plt.ylabel('Fréquence')
+# plt.show()
+
+# plt.figure(0)
+# date = np.arange(0,2*np.pi,0.1)   # start,stop,step
+# y = np.sin(x)
+# z = np.cos(x)
+# plt.plot(x,y,x,z)
+# plt.legend(['sin(x)', 'cos(x)'])     
+# plt.show()
+
+# types_de_travail = [intrant.travail for intrant in intrantList]
+
+# sns.countplot(x=types_de_travail)
+# plt.title('Répartition des types de travaux')
+# plt.xlabel('Type de travail')
+# plt.ylabel('Nombre d\'occurrences')
+# plt.show()
 #print(str(intrantList))
 #data = load_data()
