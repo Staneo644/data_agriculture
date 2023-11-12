@@ -11,7 +11,7 @@ Si vous souhaitez voir les erreurs et les logs, vous pouvez ajouter l'argument "
 
 
 
-Exemple d'utilisation
+# Exemples d'utilisation
 
 python data.py --product=8700462
 
@@ -26,7 +26,7 @@ python data.py --show=phyto
 
 
 
-Cas d'erreurs
+# Cas d'erreurs
 
 Le code ne s'executera pas si dans la bases de données "Raw_AgroEdi", la valeur "id_parcelle_pv" n'est pas égal à "id_parcelle_vi", si à un moment, pour les espèces botaniques ou la forme de travail, un clé n'a pas la même valeur qu'avant et une valeur n'a pas la même clé qu'avant
 
@@ -37,7 +37,7 @@ Le code ne s'execute pas dans la base de donnée "produits_condition_emploie", s
 
 
 
-Nom de codes
+# Noms de codes
 
 ZAG: Ail
 ZOH: Autres ornementales
