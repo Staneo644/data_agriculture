@@ -34,14 +34,6 @@ class DataPhyto():
         if (name != self.name or type != self.type):
             return False
         return True
-    
-# def FindPhyto(amm_id:int, list: List[DataPhyto]):
-
-#     for i in range(0, len(list)):
-#         if (list[i].amm_id == amm_id):
-#             return list[i]
-#     return False
-
 
 def FindPhyto(data_list:List[DataPhyto], amm_id:int) -> DataPhyto:
     low = 0

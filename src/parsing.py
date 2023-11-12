@@ -76,6 +76,8 @@ def get_dose(data:pd.DataFrame, index:int) -> Tuple[Decimal, Decimal, Decimal] :
         dose_decimal = Decimal(dose_column.replace(',', '.'))
         surface_decimal = Decimal(surface_column.replace(',', '.'))
         quantite_decimal = Decimal(quantite_column.replace(',', '.'))
+        if (quantite_decimal > 10000000):
+            return [0, 0, 0]
         result = ((dose_decimal * surface_decimal).quantize(Decimal('0.1'), rounding=ROUND_UP), (dose_decimal * surface_decimal).quantize(Decimal('0.1'), rounding=ROUND_DOWN))
         if (quantite_decimal.quantize(Decimal('0.1'), rounding=ROUND_UP) not in result and quantite_decimal.quantize(Decimal('0.1'), rounding=ROUND_DOWN) not in result):
             return [0, 0, 0]
@@ -187,6 +189,6 @@ def load_data(data: pd.DataFrame, phyto: List[Phyto], plante_dict:dict, code_dic
             retIntrant.append(Intrant(date, plante, travail, numero_parcelle, dose, surface, quantite,  unite))
     if (verbose):
         print("\n\nSurface max : " + str(surface_max) + " Surface min : " + str(surface_min))
-    print("\n\n" + str(rejected_data) + " valeurs ont été rejeté car elles ne possédaient pas les bons critères")
+        print("\n\n" + str(rejected_data) + " valeurs ont été rejeté car elles ne possédaient pas les bons critères")
     return retIntrant, retPhyto
 
