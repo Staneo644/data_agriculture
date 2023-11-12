@@ -1,8 +1,3 @@
-#Check if the dates are in the good order (after 2017) 
-#Check if the parcelle_pv and parcelle_vi are the same
-#Check if the amm_id is valid
-#Check if the dose is valid (dose * surface = quantite_intrant)
-
 import pandas as pd
 from datetime import datetime
 from typing import List, Tuple
@@ -15,8 +10,6 @@ def get_phyto_by_amm_id(amm_id:int, data_phyto:List[DataPhyto]) -> DataPhyto:
         if (phyto.amm_id == amm_id):
             return phyto
     return False
-    
-
 
 def get_data_phyto(data:pd.DataFrame) -> List[DataPhyto]:
 
@@ -70,18 +63,18 @@ def get_date(data:pd.DataFrame, index:int) -> datetime or bool:
 def get_dose(data:pd.DataFrame, index:int) -> Tuple[Decimal, Decimal, Decimal] :
     dose_column = data['dose'][index]
     surface_column = data['surface_evt'][index]
-    quantite_column = data['quantite_intrant'][index]
+    quantity_column = data['quantite_intrant'][index]
     result = 0
     try:
         dose_decimal = Decimal(dose_column.replace(',', '.'))
         surface_decimal = Decimal(surface_column.replace(',', '.'))
-        quantite_decimal = Decimal(quantite_column.replace(',', '.'))
-        if (quantite_decimal > 10000000):
+        quantity_decimal = Decimal(quantity_column.replace(',', '.'))
+        if (quantity_decimal > 10000000):
             return [0, 0, 0]
         result = ((dose_decimal * surface_decimal).quantize(Decimal('0.1'), rounding=ROUND_UP), (dose_decimal * surface_decimal).quantize(Decimal('0.1'), rounding=ROUND_DOWN))
-        if (quantite_decimal.quantize(Decimal('0.1'), rounding=ROUND_UP) not in result and quantite_decimal.quantize(Decimal('0.1'), rounding=ROUND_DOWN) not in result):
+        if (quantity_decimal.quantize(Decimal('0.1'), rounding=ROUND_UP) not in result and quantity_decimal.quantize(Decimal('0.1'), rounding=ROUND_DOWN) not in result):
             return [0, 0, 0]
-        return [dose_decimal, surface_decimal, quantite_decimal]
+        return [dose_decimal, surface_decimal, quantity_decimal]
     except InvalidOperation:
         return [0, 0, 0]
 
@@ -147,8 +140,8 @@ def load_data(data: pd.DataFrame, phyto: List[Phyto], plante_dict:dict, code_dic
     rejected_data = 0
 
     for index, row in data.iterrows():
-        dose, surface, quantite = get_dose(data, index)
-        if (dose == 0 or surface == 0 or quantite == 0):
+        dose, surface, quantity = get_dose(data, index)
+        if (dose == 0 or surface == 0 or quantity == 0):
             if (verbose):
                 print("\n\nDose invalide, numéro : " + str(index))
             rejected_data += 1
@@ -182,11 +175,11 @@ def load_data(data: pd.DataFrame, phyto: List[Phyto], plante_dict:dict, code_dic
         if (travail == 'SEX'):
             amm_id = get_amm_id(data, index, phyto)
             if (amm_id > 0):
-                retPhyto.append(Phyto(date, plante, travail, numero_parcelle, dose, surface, quantite, unite, amm_id))
+                retPhyto.append(Phyto(date, plante, travail, numero_parcelle, dose, surface, quantity, unite, amm_id))
             else:
                 rejected_data += 1
         else:
-            retIntrant.append(Intrant(date, plante, travail, numero_parcelle, dose, surface, quantite,  unite))
+            retIntrant.append(Intrant(date, plante, travail, numero_parcelle, dose, surface, quantity,  unite))
     if (verbose):
         print("\n\nSurface max : " + str(surface_max) + " Surface min : " + str(surface_min))
         print("\n\n" + str(rejected_data) + " valeurs ont été rejeté car elles ne possédaient pas les bons critères")

@@ -3,20 +3,20 @@ import datetime
 from typing import List 
 
 class Intrant:
-    def __init__(self, date:datetime, plante, travail, numero_parcelle:int, dose:Decimal, surface:Decimal, quantite:Decimal, unite:str):
+    def __init__(self, date:datetime, plante, travail, numero_parcelle:int, dose:Decimal, surface:Decimal, quantity:Decimal, unite:str):
         self.date = date
         self.plante = plante
         self.travail = travail
         self.numero_parcelle = numero_parcelle
         self.dose = dose
-        self.quantite = quantite
+        self.quantity = quantity
         self.surface = surface
         self.unite = unite
 
 
 class Phyto(Intrant):
-    def __init__(self, date:datetime, plante, travail, numero_parcelle, dose:int, surface:Decimal, quantite:Decimal, unite:str, amm_id):
-        super().__init__(date, plante, travail, numero_parcelle, dose, surface, quantite, unite)
+    def __init__(self, date:datetime, plante, travail, numero_parcelle, dose:int, surface:Decimal, quantity:Decimal, unite:str, amm_id):
+        super().__init__(date, plante, travail, numero_parcelle, dose, surface, quantity, unite)
         self.amm_id = amm_id
 
 
