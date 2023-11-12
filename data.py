@@ -3,15 +3,15 @@ import numpy as np
 import matplotlib.pyplot as plt
 from datetime import datetime
 import seaborn as sns
-from parsing import get_plante_dict, get_code_dict, checkData, load_data, get_data_phyto
-from classes import Intrant
+from src.parsing import get_plante_dict, get_code_dict, checkData, load_data, get_data_phyto
+from src.classes import Intrant
 from typing import List
-from camember import doseOnSurface, speciesCount, productCount
+from src.camember import speciesCount, productCount, typeProduct
+from src.bar import doseOnSurface, quantiteOnTime
+from args import file_name, phyto_data
 
 
 
-file_name = 'Raw_AgroEdi___Export_EDI_prepared.csv'
-phyto_data = 'produits_condition_emploi_utf8.csv'
 
 
 data = pd.read_csv(file_name)
@@ -57,19 +57,22 @@ print(type_amm_column.__len__())
 plant_dict = get_plante_dict(data)
 code_dict = get_code_dict(data)
 phytoDoc = get_data_phyto(data_phyto)
-intrantList, phytoList = load_data(data, phytoDoc)
+intrantList, phytoList = load_data(data, phytoDoc, plant_dict, code_dict)
 if (plant_dict == {} or code_dict == {} or phytoDoc == [] or not checkData(data) or intrantList == []):
     print("Erreur dans les données")
     exit()
 print("Données chargées avec succès")
 
-
-# doses = [phyto.dose for phyto in intrantList]
-fig, axs = plt.subplots(3, 3, figsize=(10, 5))
-
+# fig, axs = plt.subplots(3, 3, figsize=(10, 5))
+# doseOnSurface(phytoList)
+# quantiteOnTime(intrantList)
+typeProduct(phytoList, phytoDoc)
 # speciesCount(intrantList, plant_dict)
 # productCount(phytoList, phytoDoc)
-doseOnSurface(intrantList)
+
+# doses = [phyto.dose for phyto in intrantList]
+
+# productCount(phytoList, phytoDoc)
 
 # plt.hist(doses, bins=20, color='blue', alpha=0.7)
 # plt.title('Distribution des doses de produits phytosanitaires')

@@ -4,13 +4,11 @@
 #Check if the dose is valid (dose * surface = quantite_intrant)
 
 import pandas as pd
-from classes import Intrant, DataPhyto, Phyto
 from datetime import datetime
-from typing import List
-import math
-from typing import Tuple
+from typing import List, Tuple
 from decimal import ROUND_DOWN, ROUND_UP, Decimal, InvalidOperation
 from args import verbose
+from src.classes import Intrant, DataPhyto, Phyto
 
 def get_phyto_by_amm_id(amm_id:int, data_phyto:List[DataPhyto]) -> DataPhyto:
     for phyto in data_phyto:
@@ -139,23 +137,40 @@ def get_code_dict(data: pd.DataFrame) -> dict:
     return ret
 
 
-def load_data(data: pd.DataFrame, phyto: List[Phyto]) -> tuple[List[Intrant], List[Phyto]]:
+def load_data(data: pd.DataFrame, phyto: List[Phyto], plante_dict:dict, code_dict:dict) -> tuple[List[Intrant], List[Phyto]]:
     retIntrant = []
     retPhyto = []
     surface_max = 0
     surface_min = 100000
+    rejected_data = 0
 
     for index, row in data.iterrows():
         dose, surface, quantite = get_dose(data, index)
         if (dose == 0 or surface == 0 or quantite == 0):
+            if (verbose):
+                print("\n\nDose invalide, numéro : " + str(index))
+            rejected_data += 1
             continue
 
         date = get_date(data, index)
         if (date == False):
+            if (verbose):
+                print("\n\nDate invalide, numéro : " + str(index))
+            rejected_data += 1
             continue
 
         plante = row['espece_botanique_code']
+        if (not plante in plante_dict):
+            if (verbose):
+                print("\n\nPlante invalide, numéro : " + str(plante))
+            rejected_data += 1
+            continue
         travail = row['type_travail_code']
+        if (not travail in code_dict):
+            if (verbose):
+                print("\n\nTravail invalide, numéro : " + str(travail))
+            rejected_data += 1
+            continue
         numero_parcelle = row['id_parcelle_pv']
         unite = row['unite_intrant']
         if (surface > surface_max):
@@ -166,9 +181,12 @@ def load_data(data: pd.DataFrame, phyto: List[Phyto]) -> tuple[List[Intrant], Li
             amm_id = get_amm_id(data, index, phyto)
             if (amm_id > 0):
                 retPhyto.append(Phyto(date, plante, travail, numero_parcelle, dose, surface, quantite, unite, amm_id))
+            else:
+                rejected_data += 1
         else:
             retIntrant.append(Intrant(date, plante, travail, numero_parcelle, dose, surface, quantite,  unite))
     if (verbose):
         print("\n\nSurface max : " + str(surface_max) + " Surface min : " + str(surface_min))
+    print("\n\n" + str(rejected_data) + " valeurs ont été rejeté car elles ne possédaient pas les bons critères")
     return retIntrant, retPhyto
 
