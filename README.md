@@ -40,51 +40,100 @@ Le code ne s'execute pas dans la base de donnée "produits_condition_emploie", s
 # Noms de codes
 
 ZAG: Ail
+
 ZOH: Autres ornementales
+
 ZAM: Avoine
+
 E31: Avoine nue
+
 ZAP: Betterave
+
 ZAQ: Blé dur
+
 ZAR: Blé tendre
+
 ZAV: Carotte
+
 ZAX: Céleri
+
 ZAZ: Chanvre
+
 ZBA: Chicorée
+
 ZBB: Chou
+
+
 ZBE: Colza
+
 E90: Courge
+
 ZBI: Courgette
+
 ZBJ: Dactyle
+
 ZBK: Echalote
+
 ZBM: Epeautre
+
 ZBN: Epinard
+
 ZOJ: Espèces diverses
+
 ZBQ: Fétuque élevée
+
 F15: Fétuque rouge
+
 ZBS: Fève
+
 ZBT: Fèverole
+
 ZCA: Haricot
+
 ZCL: Lin
+
 ZCN: Lupin blanc
+
 ZCQ: Luzerne
+
 ZCS: Maïs
+
 H69: Mélange
+
 ZDA: Moutarde blanche
+
 ZDF: Oeillette (pavot)
+
 ZDG: Oignon
+
 ZDH: Orge
+
 ZDL: Phacélie
+
 ZDN: Poireau
+
 ZDO: Pois
+
 ZOD: Pois chiche
+
 ZDS: Pomme de terre
+
 ZDU: Prairie
+
 ZDX: Ray-grass anglais
+
 ZDZ: Ray-grass d'Italie
+
 ZEJ: Seigle
+
 G55: Seigle forestier
+
 ZEL: Soja
+
 ZMB: Tournesol
+
 ZMC: Trèfle violet
+
 ZMI: Triticale
-ZMK: Vesce commune
+
+ZMK: Vesce commun
